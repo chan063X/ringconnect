@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RING CONNECTION TECHNOLOGY (HONG KONG) CO., LIMITED</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #0f172a; /* Dark blue/slate - Base background */
+            color: #e2e8f0; /* Light gray/slate */
+            scroll-behavior: smooth;
+            /* position: relative; Ensure body can be a reference for absolutely positioned children if needed */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: #1e293b; /* Darker slate */
+            color: #e2e8f0;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000; /* Ensure header is above SVG and other content */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #38bdf8; /* Sky blue */
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        header nav ul li {
+            margin-left: 20px;
+        }
+
+        header nav ul li a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        header nav ul li a:hover {
+            color: #38bdf8; /* Sky blue */
+        }
+
+        /* Main Content Area */
+        main {
+            padding-top: 80px; /* Adjust based on header height */
+            position: relative; /* Ensure main content is above the fixed background */
+            z-index: 1;         /* Ensure main content is above the fixed background */
+        }
+
+        /* Section Styling */
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #334155; /* Slate border */
+        }
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            color: #67e8f9; /* Cyan */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Hero Section */
+        #home {
+            /* background-color: #0f172a; */ /* Removed, body provides base, SVG provides dynamic layer */
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            position: relative; /* For positioning the content container */
+            /* overflow: hidden; */   /* Removed, SVG is global and not clipped by #home */
+        }
+
+        /* Styles for the global dynamic background SVG */
+        .dynamic-lines-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind all content */
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        .dynamic-lines-bg line {
+            stroke-linecap: round;
+        }
+
+        /* Primary Sci-Fi Lines (e.g., electric blue) */
+        .dynamic-lines-bg .line-primary {
+            stroke: rgba(0, 191, 255, 0.3); /* Electric Blue */
+            stroke-width: 1; /* viewBox units */
+            animation: movePrimary 15s linear infinite;
+        }
+
+        /* Secondary Sci-Fi Lines (e.g., neon purple) */
+        .dynamic-lines-bg .line-secondary {
+            stroke: rgba(191, 0, 255, 0.2); /* Neon Purple */
+            stroke-width: 0.7; /* viewBox units */
+            animation: moveSecondary 20s linear infinite;
+        }
+
+        /* Subtle Grid/Static Lines (e.g., faint white/grey) */
+        .dynamic-lines-bg .line-grid {
+            stroke: rgba(220, 220, 255, 0.1); /* Faint White/Grey */
+            stroke-width: 0.4; /* viewBox units */
+            animation: pulseGrid 25s linear infinite;
+        }
+        
+        /* Animation helper classes */
+        .dynamic-lines-bg .anim-delay-1 { animation-delay: -2s; }
+        .dynamic-lines-bg .anim-delay-2 { animation-delay: -5s; }
+        .dynamic-lines-bg .anim-delay-3 { animation-delay: -8s; animation-direction: reverse; }
+        .dynamic-lines-bg .anim-delay-4 { animation-delay: -11s; }
+        .dynamic-lines-bg .anim-delay-5 { animation-delay: -14s; animation-direction: reverse; }
+        
+        .dynamic-lines-bg .anim-alt-speed { animation-duration: 12s; }
+        .dynamic-lines-bg .stroke-w-lg { stroke-width: 1.2; } /* Example override for thicker line */
+        .dynamic-lines-bg .stroke-w-sm { stroke-width: 0.6; } /* Example override for thinner line */
+
+
+        @keyframes movePrimary {
+            0% { transform: translateX(-15%) rotate(-0.5deg); opacity: 0.15; }
+            25% { opacity: 0.4; }
+            50% { transform: translateX(15%) rotate(0.5deg); opacity: 0.2; }
+            75% { opacity: 0.5; }
+            100% { transform: translateX(-15%) rotate(-0.5deg); opacity: 0.15; }
+        }
+
+        @keyframes moveSecondary {
+            0% { transform: translate(-10%, -10%) rotate(-2deg); opacity: 0.1; }
+            25% { opacity: 0.3; }
+            50% { transform: translate(10%, 10%) rotate(2deg); opacity: 0.15; }
+            75% { opacity: 0.35; }
+            100% { transform: translate(-10%, -10%) rotate(-2deg); opacity: 0.1; }
+        }
+
+        @keyframes pulseGrid {
+            0% { opacity: 0.05; stroke-width: 0.3; } /* Initial stroke-width for grid lines */
+            50% { opacity: 0.15; stroke-width: 0.5; } /* Pulsed stroke-width for grid lines */
+            100% { opacity: 0.05; stroke-width: 0.3; }
+        }
+
+
+        #home .container { /* Ensure content is above the SVG */
+            position: relative;
+            z-index: 1; /* Content within #home is above #home's own context if any other pseudo elements were added */
+        }
+
+        /* About Us Section */
+        #about p {
+            font-size: 1.1rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #cbd5e1; /* Lighter slate */
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .service-item {
+            background: #1e293b; /* Darker slate */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            flex-basis: calc(50% - 15px); /* Two columns on wider screens */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3); /* Sky blue shadow on hover */
+        }
+
+        .service-item h3 {
+            font-size: 1.8rem;
+            color: #38bdf8; /* Sky blue */
+            margin-bottom: 15px;
+        }
+
+        .service-item p {
+            font-size: 1rem;
+            color: #cbd5e1; /* Lighter slate */
+            margin-bottom: 10px;
+        }
+        
+        .service-item ul {
+            list-style: disc;
+            margin-left: 20px;
+            color: #94a3b8; /* Slate */
+        }
+
+        .service-item ul li {
+            margin-bottom: 8px;
+        }
+
+
+        /* Contact Section */
+        #contact .contact-info {
+            text-align: center;
+        }
+
+        #contact .contact-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #cbd5e1; /* Lighter slate */
+        }
+
+        #contact .contact-info strong {
+            color: #38bdf8; /* Sky blue */
+        }
+
+        /* Footer */
+        footer {
+            background: #1e293b; /* Darker slate */
+            color: #94a3b8; /* Slate */
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            header h1 {
+                font-size: 1.2rem;
+            }
+            #home h1.main-title {
+                font-size: 2.8rem;
+            }
+            #home p {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            header nav ul {
+                margin-top: 10px;
+                justify-content: center;
+            }
+            header nav ul li {
+                margin: 0 10px;
+            }
+            main {
+                padding-top: 120px; /* Adjust for taller header */
+            }
+            .service-item {
+                flex-basis: 100%; /* Full width on smaller screens */
+            }
+            section h2 {
+                font-size: 2rem;
+            }
+            #home h1.main-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1rem;
+            }
+            header nav ul li a {
+                font-size: 0.9rem;
+            }
+             main {
+                padding-top: 110px; /* Adjust for taller header */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <svg class="dynamic-lines-bg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Primary Lines -->
+        <line x1="-10" y1="10" x2="110" y2="10" class="line-primary anim-delay-1" />
+        <line x1="-10" y1="50" x2="110" y2="50" class="line-primary anim-delay-3 anim-alt-speed stroke-w-lg" />
+        <line x1="-10" y1="-10" x2="110" y2="110" class="line-primary anim-delay-5" />
+
+        <!-- Secondary Lines -->
+        <line x1="-10" y1="30" x2="110" y2="30" class="line-secondary anim-delay-2 stroke-w-sm" />
+        <line x1="-10" y1="110" x2="110" y2="-10" class="line-secondary anim-delay-4 anim-alt-speed" />
+        <line x1="40" y1="-10" x2="60" y2="110" class="line-secondary anim-delay-1" />
+
+        <!-- Grid Lines -->
+        <line x1="-10" y1="70" x2="110" y2="70" class="line-grid anim-delay-3" />
+        <line x1="-10" y1="90" x2="110" y2="90" class="line-grid anim-delay-5 anim-alt-speed" />
+        <line x1="-10" y1="40" x2="110" y2="60" class="line-grid anim-delay-2" />
+        <line x1="20" y1="-10" x2="20" y2="110" class="line-grid anim-delay-4" /> <!-- Added vertical grid line -->
+        <line x1="80" y1="-10" x2="80" y2="110" class="line-grid anim-delay-1 anim-alt-speed" /> <!-- Added vertical grid line -->
+    </svg>
+    <header>
+        <div class="container">
+            <h1>RING CONNECTION TECHNOLOGY (HONG KONG) CO., LIMITED</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">首頁</a></li>
+                    <li><a href="#about">關於我們</a></li>
+                    <li><a href="#services">服務項目</a></li>
+                    <li><a href="#contact">聯繫我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home">
+            <!-- SVG was here, now moved to be a direct child of body -->
+            <div class="container">
+                <h1 class="main-title">連接未來，科技賦能</h1>
+                <p>RING CONNECTION TECHNOLOGY 致力於提供尖端的電子產品、互聯網解決方案和計算機設備，助您引領科技前沿。</p>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2>關於我們</h2>
+                <p>RING CONNECTION TECHNOLOGY (HONG KONG) CO., LIMITED 是一家專注於科技領域的綜合性公司。我們憑藉專業的技術團隊、創新的解決方案和以客戶為中心的服務理念，致力於為客戶提供高品質的電子產品、高效的互聯網應用開發、先進的計算機設備以及可靠的網絡耗材。我們的目標是成為您在數字化轉型和科技發展道路上值得信賴的合作夥伴。</p>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="container">
+                <h2>服務項目</h2>
+                <div class="services-grid">
+                    <article class="service-item">
+                        <h3>電子產品銷售</h3>
+                        <p>我們提供最新、最尖端的消費級和企業級電子產品，滿足您多樣化的需求。</p>
+                        <ul>
+                            <li>涵蓋智能手機、平板電腦、筆記本電腦、穿戴設備、智能家居等。</li>
+                            <li>與全球頂級品牌合作，保證產品質量與售後服務。</li>
+                            <li>為客戶提供專業的產品諮詢和定制化採購方案。</li>
+                        </ul>
+                    </article>
+                    <article class="service-item">
+                        <h3>互聯網應用開發</h3>
+                        <p>專注於為企業和個人開發高效、安全的互聯網應用程序，助力業務增長。</p>
+                        <ul>
+                            <li>服務包括網站開發、移動應用 (iOS/Android) 開發、SaaS 平台搭建、電子商務解決方案。</li>
+                            <li>採用敏捷開發流程，確保項目按時交付並滿足客戶需求。</li>
+                            <li>運用最新技術棧，如 AI、大數據、雲計算，打造創新應用。</li>
+                        </ul>
+                    </article>
+                    <article class="service-item">
+                        <h3>計算機設備研發與銷售</h3>
+                        <p>致力於高性能計算機硬件的研發、生產與銷售，提供專業的硬件支持。</p>
+                        <ul>
+                            <li>產品線包括服務器、工作站、定制化 PC、存儲解決方案等。</li>
+                            <li>提供從硬件選型、系統集成到後期維護的全方位服務。</li>
+                            <li>專為科研機構、數據中心、高端設計等領域提供專業設備支持。</li>
+                        </ul>
+                    </article>
+                    <article class="service-item">
+                        <h3>網絡耗材</h3>
+                        <p>提供全面的高品質網絡布線及輔助材料，保障網絡基礎設施的穩定與高效。</p>
+                        <ul>
+                            <li>包括網線、光纖跳線、配線架、水晶頭、網絡工具等。</li>
+                            <li>確保網絡基礎設施的穩定性和高效性。</li>
+                            <li>適用於企業辦公網絡、數據中心、安防監控等多種場景。</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2>聯繫我們</h2>
+                <div class="contact-info">
+                    <p>我們期待與您交流，共同探索合作機會。</p>
+                    <p><strong>公司名稱：</strong> RING CONNECTION TECHNOLOGY (HONG KONG) CO., LIMITED</p>
+                    <p><strong>電子郵箱：</strong> <a href="mailto:cc@ringcloud.cc" style="color: #38bdf8;">cc@ringcloud.cc</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 RING CONNECTION TECHNOLOGY (HONG KONG) CO., LIMITED. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
